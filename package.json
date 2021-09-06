@@ -6,8 +6,10 @@
   },
   "devDependencies": {
     "pulp": "^12.0.0",
-    "purescript": "^0.12.0",
+    "purescript": "^0.14.4",
     "purescript-psa": "^0.5.0",
-    "rimraf": "^2.5.0"
+    "purs-tidy": "^0.5.1",
+    "rimraf": "^2.5.0",
+    "spago": "^0.20.3"
   }
 }

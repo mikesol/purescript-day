@@ -24,6 +24,7 @@ module Data.Functor.Day
 import Prelude
 
 import Control.Comonad (class Comonad, extract)
+import Control.Comonad.Cofree.Class (class ComonadCofree, unwrapCofree)
 import Control.Comonad.Trans.Class (class ComonadTrans)
 import Control.Extend (class Extend, duplicate)
 import Data.Exists (Exists, mkExists, runExists)
@@ -117,3 +118,6 @@ instance comonadDay :: (Comonad f, Comonad g) => Comonad (Day f g) where
 
 instance comonadTrans :: Comonad f => ComonadTrans (Day f) where
   lower = runDay \get fx gy -> get (extract fx) <$> gy
+
+instance comonadCofreeDay :: (ComonadCofree x f, ComonadCofree y g) => ComonadCofree (Day x y) (Day f g) where
+  unwrapCofree = runDay \get fx gy -> day (day get) (unwrapCofree fx) (unwrapCofree gy)
