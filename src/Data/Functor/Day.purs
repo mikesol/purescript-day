@@ -109,6 +109,12 @@ instance applyDay :: (Apply f, Apply g) => Apply (Day f g) where
 instance applicativeDay :: (Applicative f, Applicative g) => Applicative (Day f g) where
   pure a = day (\_ _ -> a) (pure unit) (pure unit)
 
+instance semigroupDay :: (Apply f, Apply g, Semigroup a) => Semigroup (Day f g a) where
+  append f g = append <$> f <*> g
+
+instance monoidDay :: (Applicative f, Applicative g, Monoid a) => Monoid (Day f g a) where
+  mempty = pure mempty
+
 instance extendDay :: (Extend f, Extend g) => Extend (Day f g) where
   extend f = map f <<< dup where
     dup = runDay \get fx gy -> day (day get) (duplicate fx) (duplicate gy)

@@ -81,6 +81,12 @@ instance functorHom :: Functor f => Functor (Hom f g) where
 instance applyHom :: (Extend f, Bind g) => Apply (Hom f g) where
   apply (Hom f) (Hom a) = Hom \w -> join (f (w =>> \wf g -> a (map (_ <<< g) wf)))
 
+instance semigroupHom :: (Extend f, Bind g, Semigroup a) => Semigroup (Hom f g a) where
+  append f g = append <$> f <*> g
+
+instance monoidHom :: (Comonad f, Monad g, Monoid a) => Monoid (Hom f g a) where
+  mempty = pure mempty
+
 instance applicativeHom :: (Comonad f, Monad g) => Applicative (Hom f g) where
   pure a = Hom \w -> pure (extract w a)
 
